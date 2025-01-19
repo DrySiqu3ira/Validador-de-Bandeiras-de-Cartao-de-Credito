@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Validador de Bandeiras de Cartão de Crédito</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Validador de Bandeiras de Cartão de Crédito</h1>
+        <input type="text" id="numeroCartao" placeholder="Digite o número do cartão de crédito">
+        <button onclick="validar()">Validar</button>
+        <div class="result" id="resultado"></div>
+    </div>
+
+    <script>
+        function validar() {
+            const numeroCartao = document.getElementById('numeroCartao').value;
+            const resultado = document.getElementById('resultado');
+            const bandeira = validarCartaoCredito(numeroCartao);
+            resultado.textContent = `A bandeira do cartão é: ${bandeira}`;
+        }
+
+        function validarCartaoCredito(numeroCartao) {
+            const bandeiras = {
+                Visa: /^4[0-9]{12}(?:[0-9]{3})?$/,
+                "Visa 16 dígitos": /^4[0-9]{15}$/,
+                Mastercard: /^5[1-5][0-9]{14}$/,
+                "American Express": /^3[47][0-9]{13}$/,
+                Discover: /^6(?:011|5[0-9]{2})[0-9]{12}$/,
+                "Diners Club": /^3(?:0[0-5]|[68][0-9])[0-9]{11}$/,
+                JCB: /^(?:2131|1800|35\d{3})\d{11}$/,
+                Voyager: /^8699[0-9]{11}$/,
+                EnRoute: /^(2014|2149)\d{11}$/,
+                HiperCard: /^(606282\d{10}(\d{3})?)|(3841\d{15})$/,
+                Aura: /^50[0-9]{14,17}$/
+            };
+
+            for (let bandeira in bandeiras) {
+                if (bandeiras[bandeira].test(numeroCartao.replace(/\s+/g, ""))) {
+                    return bandeira;
+                }
+            }
+
+            return "Bandeira desconhecida";
+        }
+    </script>
+</body>
+
+</html>
